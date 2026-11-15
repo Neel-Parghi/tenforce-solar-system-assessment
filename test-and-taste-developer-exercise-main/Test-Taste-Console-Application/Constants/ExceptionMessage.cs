@@ -6,5 +6,8 @@
 
         public const string ScreenOutputOperationFailed =
             "The screen output operation failed with the following error: ";
+
+        public const string MissingApiKey =
+            "No API Key found, please set the SOLAR SYSTEM API Key ";
     }
 }

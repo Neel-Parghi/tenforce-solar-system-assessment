@@ -15,6 +15,13 @@ namespace Test_Taste_Console_Application
     {
         static void Main(string[] args)
         {
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(HttpClientSettings.ApiKeyEnvironmentVariable)))
+            {
+                Console.WriteLine(ExceptionMessage.MissingApiKey);
+                Environment.ExitCode = 1;
+                return;
+            }
+
             var serviceCollection = new ServiceCollection();
             //The ConfigureServices function configures the services.
             ConfigureServices(serviceCollection);
