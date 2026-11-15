@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Test_Taste_Console_Application.Constants;
 
 namespace Test_Taste_Console_Application.Domain.Services
@@ -29,6 +31,18 @@ namespace Test_Taste_Console_Application.Domain.Services
 
             Client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(HttpClientSettings.BearerScheme, apiKey.Trim());
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string requestUri)
+        {
+            var response = await Client.GetAsync(requestUri);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                throw new UnauthorizedAccessException(ExceptionMessage.InvalidApiKey);
+            }
+
+            return response;
         }
     }
 }

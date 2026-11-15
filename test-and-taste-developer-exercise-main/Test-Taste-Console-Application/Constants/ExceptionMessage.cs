@@ -9,5 +9,8 @@
 
         public const string MissingApiKey =
             "No API Key found, please set the SOLAR SYSTEM API Key ";
+
+        public const string InvalidApiKey =
+            "The API key was rejected by the Solar System API. Please check the SOLAR_SYSTEM_API_KEY environment variable.";
     }
 }
