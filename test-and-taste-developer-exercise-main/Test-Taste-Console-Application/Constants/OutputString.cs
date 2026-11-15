@@ -10,10 +10,19 @@
         public const string MoonId = "Moon's Id";
         public const string MoonMassExponent = "Moon's Mass Exponent";
         public const string MoonMassValue = "Moon's Mass Value";
-        public const string PlanetMoonAverageGravity = "The Planet's Average Moon Gravity";
+        public const string PlanetMoonAverageTemperature = "Avg. Moon Temperature (K)";
+        public const string TemperatureUnknown = "unknown";
         public const string NoMoonsFound = "No moons found.";
         public const string NoPlanetsFound = "No planets found.";
         public const string FileCreated = "The file is created in: ";
         public const string FolderCreated = "The folder is created in: ";
+
+        public const string Starting = "Starting the Solar System application...";
+        public const string LoadingPlanets = "Loading planets and their moons...";
+        public const string LoadingMoons = "Loading moons...";
+        public const string WritingAverageMoonTemperature = "Writing planets and the average temperature of their moons...";
+        public const string WritingMoonsAndMass = "Writing moons and their mass...";
+        public const string WritingPlanetsAndMoons = "Writing planets and their moons...";
+        public const string Done = "Done.";
     }
 }

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <RootNamespace>Test_Taste_Console_Application</RootNamespace>
     </PropertyGroup>
 
@@ -11,13 +11,16 @@
       <None Remove="Domain\Objects\" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="log4net" Version="2.0.12" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-<None Update="log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+      <PackageReference Include="log4net" Version="3.6.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.15" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.15" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="log4net.config">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

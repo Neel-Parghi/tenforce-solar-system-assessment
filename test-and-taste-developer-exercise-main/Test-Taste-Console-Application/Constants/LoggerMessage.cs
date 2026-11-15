@@ -4,6 +4,8 @@
     {
         public const string GetRequestFailed = "Get request failed with the code: ";
 
+        public const string MoonRequestFailed = "Skipping moon, the request failed for: ";
+
         public const string ScreenOutputOperationFailed =
             "The screen output operation failed with the following error: ";
 

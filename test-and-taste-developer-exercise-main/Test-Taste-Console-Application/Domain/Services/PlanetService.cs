@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Globalization;
 using System.Text;
 using Newtonsoft.Json;
@@ -22,13 +23,11 @@ namespace Test_Taste_Console_Application.Domain.Services
             _httpClientService = httpClientService;
         }
 
-        public IEnumerable<Planet> GetAllPlanets()
+        public async Task<IEnumerable<Planet>> GetAllPlanetsAsync()
         {
             var allPlanetsWithTheirMoons = new Collection<Planet>();
 
-            var response = _httpClientService.Client
-                .GetAsync(UriPath.GetAllPlanetsWithMoonsQueryParameters)
-                .Result;
+            var response = await _httpClientService.GetAsync(UriPath.GetAllPlanetsWithMoonsQueryParameters);
 
             //If the status code isn't 200-299, then the function returns an empty collection.
             if (!response.IsSuccessStatusCode)
@@ -37,27 +36,43 @@ namespace Test_Taste_Console_Application.Domain.Services
                 return allPlanetsWithTheirMoons;
             }
 
-            var content = response.Content.ReadAsStringAsync().Result;
+            var content = await response.Content.ReadAsStringAsync();
 
             //The JSON converter uses DTO's, that can be found in the DataTransferObjects folder, to deserialize the response content.
             var results = JsonConvert.DeserializeObject<JsonResult<PlanetDto>>(content);
 
-            //The JSON converter can return a null object. 
-            if (results == null) return allPlanetsWithTheirMoons;
+            //The JSON converter can return a null object.
+            if (results?.Bodies == null) return allPlanetsWithTheirMoons;
 
             //If the planet doesn't have any moons, then it isn't added to the collection.
             foreach (var planet in results.Bodies)
             {
+                if (planet == null) continue;
+
                 if(planet.Moons != null)
                 {
                     var newMoonsCollection = new Collection<MoonDto>();
                     foreach (var moon in planet.Moons)
                     {
-                        var moonResponse = _httpClientService.Client
-                            .GetAsync(UriPath.GetMoonByIdQueryParameters + moon.URLId)
-                            .Result;
-                        var moonContent = moonResponse.Content.ReadAsStringAsync().Result;
-                        newMoonsCollection.Add(JsonConvert.DeserializeObject<MoonDto>(moonContent));
+                        if (string.IsNullOrEmpty(moon?.URLId)) 
+                            continue;
+
+                        var moonResponse = await _httpClientService.GetAsync(UriPath.GetMoonByIdQueryParameters + moon.URLId);
+
+                        if (!moonResponse.IsSuccessStatusCode)
+                        {
+                            Logger.Instance.Warn($"{LoggerMessage.MoonRequestFailed}{moon.URLId} ({moonResponse.StatusCode})");
+                            continue;
+                        }
+
+                        var moonContent = await moonResponse.Content.ReadAsStringAsync();
+                        
+                        var moonDto = JsonConvert.DeserializeObject<MoonDto>(moonContent);
+                        
+                        if (moonDto != null)
+                        {
+                            newMoonsCollection.Add(moonDto);
+                        }
                     }
                     planet.Moons = newMoonsCollection;
 

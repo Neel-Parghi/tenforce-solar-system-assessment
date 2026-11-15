@@ -68,6 +68,13 @@ namespace Test_Taste_Console_Application.Utilities
             CreateLine(columnSizes);
         }
 
+        public static void WriteStep(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
         public static void CreateEmptyLines(int totalEmptyLines)
         {
             //The function can create empty spaces.
